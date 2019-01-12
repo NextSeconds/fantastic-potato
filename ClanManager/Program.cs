@@ -24,7 +24,7 @@ namespace ClanManager
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new 部落管理助手());
+            Application.Run(new Form1());
         }
     }
 }

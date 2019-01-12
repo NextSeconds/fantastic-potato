@@ -22,10 +22,6 @@ namespace ClanManager
         }
         public void InitView(AppEvent<ClanInfo> evt)
         {
-
-
-
-
             //Init GridView1
             List<Members> members = evt.data.memberList;
             dataGridView1.Columns.Add("clanRank", "序号");
