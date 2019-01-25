@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace ClanManager.Scripts
 {
-    public class ViewController
+    public class Heroes
     {
-        public void InitGird(ClanInfo clanInfo)
-        {
-        }
+        public string name;
+        public int level;
+        public int maxLevel;
+        public string village;
     }
 }

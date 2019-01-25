@@ -23,4 +23,4 @@ D:\ClanManagerSolution\ClanManager\bin\Debug\Newtonsoft.Json.xml
 D:\ClanManagerSolution\ClanManager\bin\Debug\System.IdentityModel.Tokens.Jwt.pdb
 D:\ClanManagerSolution\ClanManager\bin\Debug\System.IdentityModel.Tokens.Jwt.xml
 D:\ClanManagerSolution\ClanManager\obj\Debug\ClanManager.csproj.CopyComplete
-D:\ClanManagerSolution\ClanManager\obj\Debug\ClanManager.Form1.resources
+D:\ClanManagerSolution\ClanManager\obj\Debug\ClanManager.MainForm.resources

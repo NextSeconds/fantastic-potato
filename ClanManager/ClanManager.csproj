@@ -72,19 +72,29 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scripts\Achievements.cs" />
     <Compile Include="Scripts\AppEvent.cs" />
     <Compile Include="Scripts\AppEventDispatcher.cs" />
     <Compile Include="Scripts\BadgeUrls.cs" />
+    <Compile Include="Scripts\BlackList.cs" />
+    <Compile Include="Scripts\BlackPlayerInfo.cs" />
+    <Compile Include="Scripts\Clan.cs" />
     <Compile Include="Scripts\ClanInfo.cs" />
+    <Compile Include="Scripts\EventName.cs" />
+    <Compile Include="Scripts\FileController.cs" />
+    <Compile Include="Scripts\Heroes.cs" />
     <Compile Include="Scripts\HttpController.cs" />
     <Compile Include="Scripts\IconUrls.cs" />
     <Compile Include="Scripts\League.cs" />
     <Compile Include="Scripts\Location.cs" />
     <Compile Include="Scripts\Members.cs" />
     <Compile Include="Scripts\ModelController.cs" />
+    <Compile Include="Scripts\PlayerInfo.cs" />
     <Compile Include="Scripts\Reg.cs" />
     <Compile Include="Scripts\Singleton.cs" />
-    <Compile Include="Scripts\ViewController.cs" />
+    <Compile Include="Scripts\Spells.cs" />
+    <Compile Include="Scripts\TipController.cs" />
+    <Compile Include="Scripts\Troops.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

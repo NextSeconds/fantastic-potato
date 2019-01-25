@@ -13,17 +13,31 @@ namespace ClanManager.Scripts
 {
     public class HttpController
     {
-        private static string PRIVATE_KEY = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6IjExMmQ0NTVlLTg4MDItNGZmMy04NThjLTY1ZDhkOTE4NDE3ZCIsImlhdCI6MTU0NzI4MDk5NCwic3ViIjoiZGV2ZWxvcGVyL2M1ZDhlZGVlLTY1MWYtZjhmNS0yMmNmLTFhNmU2YjdmZjNjNSIsInNjb3BlcyI6WyJjbGFzaCJdLCJsaW1pdHMiOlt7InRpZXIiOiJkZXZlbG9wZXIvc2lsdmVyIiwidHlwZSI6InRocm90dGxpbmcifSx7ImNpZHJzIjpbIjExMS4yMjYuMTk5LjI3Il0sInR5cGUiOiJjbGllbnQifV19.14RAjbQeRKIA2qfFURsicwJio9gvpGIagcBgD0WXsr0GLdgzW0mv7U-yQjjKscGePpoYGoUr-xrw--PWQ8qA8A";
+        private static string PRIVATE_KEY = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiIsImtpZCI6IjI4YTMxOGY3LTAwMDAtYTFlYi03ZmExLTJjNzQzM2M2Y2NhNSJ9.eyJpc3MiOiJzdXBlcmNlbGwiLCJhdWQiOiJzdXBlcmNlbGw6Z2FtZWFwaSIsImp0aSI6IjkzMzViNzcwLTI2ZWMtNGUxMS04MzA3LTJkOGIxYjY0Y2U4OSIsImlhdCI6MTU0ODI0NTAwMCwic3ViIjoiZGV2ZWxvcGVyL2M1ZDhlZGVlLTY1MWYtZjhmNS0yMmNmLTFhNmU2YjdmZjNjNSIsInNjb3BlcyI6WyJjbGFzaCJdLCJsaW1pdHMiOlt7InRpZXIiOiJkZXZlbG9wZXIvc2lsdmVyIiwidHlwZSI6InRocm90dGxpbmcifSx7ImNpZHJzIjpbIjExMS4yMjYuMTk4LjIwMiJdLCJ0eXBlIjoiY2xpZW50In1dfQ.sZ84AfbKgybiDOJoSe4VadJesv8FSVm827bniQzaHLjp83DvZi61C1AbKQNbLZ1LpwPtBxB0s1e91_OfLYahJQ";
         public static string GetKey() { return PRIVATE_KEY; }
-        public static string GetResponse(string url, out string statusCode)
+        public const string PLAYER_URL = "https://api.clashofclans.com/v1/players/";
+
+        public static PlayerInfo GetPlayerInfo(string playerTag, out int statusCode)
+        {
+            PlayerInfo playerInfo = new PlayerInfo();
+            playerTag = playerTag.Replace("#", "%23");
+            string playerUrl = PLAYER_URL + playerTag;
+            playerInfo = GetResponse<PlayerInfo>(playerUrl, out statusCode);
+
+            //TipController.Instance.ShowTip(result);
+
+            return playerInfo;
+        }
+
+        public static string GetResponse(string url, out int statusCode)
         {
             if (url.StartsWith("https"))
-                System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls;
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls;
             var httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GetKey());
             HttpResponseMessage response = httpClient.GetAsync(url).Result;
-            statusCode = GetReason((int)response.StatusCode);
+            statusCode = (int)response.StatusCode;
 
             if (response.IsSuccessStatusCode)
             {
@@ -33,15 +47,15 @@ namespace ClanManager.Scripts
             return null;
         }
 
-        public static T GetResponse<T>(string url, out string statusCode) where T : class, new()
+        public static T GetResponse<T>(string url, out int statusCode) where T : class, new()
         {
             if (url.StartsWith("https"))
-                System.Net.ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls;
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls;
             var httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GetKey());
             HttpResponseMessage response = httpClient.GetAsync(url).Result;
-            statusCode = GetReason((int)response.StatusCode);
+            statusCode = (int)response.StatusCode;
 
             T result = default(T);
             if (response.IsSuccessStatusCode)
@@ -65,7 +79,7 @@ namespace ClanManager.Scripts
                 case 429: mean = "请求过于频繁。"; break;
                 case 500: mean = "处理请求时发生未知错误。"; break;
                 case 503: mean = "由于维护，服务暂时无法使用。"; break;
-                default: mean = "发生未知异常请联系开发者。"; break;
+                default: mean = "发生未知异常请联系作者。"; break;
             }
             return mean;
         }

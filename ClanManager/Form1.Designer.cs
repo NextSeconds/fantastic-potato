@@ -1,6 +1,6 @@
 ﻿namespace ClanManager
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// 必需的设计器变量。
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.clanInfoBindingSource = new System.Windows.Forms.BindingSource(this.components);
@@ -38,9 +38,11 @@
             this.查询部落信息ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.玩家信息ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.部落名称 = new System.Windows.Forms.Label();
+            this.BlackListView = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.clanInfoBindingSource)).BeginInit();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.BlackListView)).BeginInit();
             this.SuspendLayout();
             // 
             // dataGridView1
@@ -49,7 +51,7 @@
             this.dataGridView1.Location = new System.Drawing.Point(12, 61);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowTemplate.Height = 23;
-            this.dataGridView1.Size = new System.Drawing.Size(1274, 603);
+            this.dataGridView1.Size = new System.Drawing.Size(988, 603);
             this.dataGridView1.TabIndex = 0;
             // 
             // clanInfoBindingSource
@@ -78,13 +80,13 @@
             // 查询部落信息ToolStripMenuItem
             // 
             this.查询部落信息ToolStripMenuItem.Name = "查询部落信息ToolStripMenuItem";
-            this.查询部落信息ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.查询部落信息ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.查询部落信息ToolStripMenuItem.Text = "部落信息";
             // 
             // 玩家信息ToolStripMenuItem
             // 
             this.玩家信息ToolStripMenuItem.Name = "玩家信息ToolStripMenuItem";
-            this.玩家信息ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.玩家信息ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.玩家信息ToolStripMenuItem.Text = "玩家信息";
             // 
             // 部落名称
@@ -97,17 +99,28 @@
             this.部落名称.TabIndex = 2;
             this.部落名称.Text = "萌萌哒的一群大猪崽";
             // 
-            // Form1
+            // BlackListView
+            // 
+            this.BlackListView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.BlackListView.Location = new System.Drawing.Point(1029, 61);
+            this.BlackListView.Name = "BlackListView";
+            this.BlackListView.RowTemplate.Height = 23;
+            this.BlackListView.Size = new System.Drawing.Size(240, 603);
+            this.BlackListView.TabIndex = 3;
+            this.BlackListView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.BlackListView_CellContentClick);
+            // 
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1298, 676);
+            this.Controls.Add(this.BlackListView);
             this.Controls.Add(this.部落名称);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "Form1";
+            this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "部落管理助手";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
@@ -116,6 +129,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.clanInfoBindingSource)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.BlackListView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -131,6 +145,7 @@
         private System.Windows.Forms.ToolStripMenuItem 查询部落信息ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 玩家信息ToolStripMenuItem;
         private System.Windows.Forms.Label 部落名称;
+        private System.Windows.Forms.DataGridView BlackListView;
     }
 }
 

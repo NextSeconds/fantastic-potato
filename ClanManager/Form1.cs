@@ -8,21 +8,24 @@ using ClanManager.Scripts;
 
 namespace ClanManager
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
-        public Form1()
+        public static MainForm mainForm;
+        public MainForm()
         {
             InitializeComponent();
+            mainForm = this;
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            Reg.EventDispatcher.AddEventListener<AppEvent<ClanInfo>>("GetClanInfo", InitView);
+            Reg.EventDispatcher.AddEventListener<AppEvent<ClanInfo>>(EventName.VIEW_MAINFORM_INIT_CLAN_DATAGRIDVIEW, InitClanDataGridView);
+            Reg.EventDispatcher.AddEventListener<AppEvent<ClanInfo>>(EventName.VIEW_MAINFORM_INIT_CLAN_DATAGRIDVIEW, InitClanDataGridView);
+
             ModelController.Instance.Init();
         }
-        public void InitView(AppEvent<ClanInfo> evt)
+        public void InitClanDataGridView(AppEvent<ClanInfo> evt)
         {
-            //Init GridView1
             List<Members> members = evt.data.memberList;
             dataGridView1.Columns.Add("clanRank", "序号");
             dataGridView1.Columns.Add("tag", "标签");
@@ -54,7 +57,12 @@ namespace ClanManager
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Reg.EventDispatcher.RemoveEventListener<AppEvent<ClanInfo>>("GetClanInfo", InitView);
+            Reg.EventDispatcher.RemoveEventListener<AppEvent<ClanInfo>>(EventName.VIEW_MAINFORM_INIT_CLAN_DATAGRIDVIEW, InitClanDataGridView);
+        }
+
+        private void BlackListView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }
