@@ -16,7 +16,8 @@ namespace ClanManager.Scripts
 
         public void ShowTip(string content)
         {
-            //MessageBox.Show(content);
+            content = DateTime.Now + " : " + content;
+            Reg.EventDispatcher.DispatchEventWith(EventName.VIEW_MAINFORM_TEXTBOX_SHOWTIP, content);
         }
     }
 }

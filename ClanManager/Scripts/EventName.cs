@@ -10,9 +10,7 @@ namespace ClanManager.Scripts
     {
         public const string VIEW_MAINFORM_INIT_CLAN_DATAGRIDVIEW = "view_mainform_init_clan_datagridview";
         public const string VIEW_MAINFORM_INIT_BLACKLIST_DATAGRIDVIEW = "view_mainform_init_blacklist_datagridview";
-
-
-
+        public const string VIEW_MAINFORM_TEXTBOX_SHOWTIP = "view_mainform_textbox_showtip";
 
         /// <summary>
         /// 示例

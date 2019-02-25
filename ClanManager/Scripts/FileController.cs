@@ -14,12 +14,14 @@ namespace ClanManager.Scripts
         private string ClanManegerDirectory { get { return MyDocumentsDirectory + @"\" + "ClanManeger"; } }
         private string ClanInfoDirectory { get { return ClanManegerDirectory + @"\" + "ClanInfo"; } }
         private string BlackListPath { get { return ClanManegerDirectory + @"\" + "BlackList.info"; } }
+        private string PrivateKeyPath { get { return ClanManegerDirectory + @"\" + "key.info"; } }
 
         public void Init()
         {
             DirectoryInit(ClanManegerDirectory);
             DirectoryInit(ClanInfoDirectory);
             FileInit(BlackListPath);
+            FileInit(PrivateKeyPath);
         }
 
         public void SaveClanInfo(ClanInfo clanInfo)
@@ -37,6 +39,16 @@ namespace ClanManager.Scripts
         public void SaveBlackListContent(string content)
         {
             File.WriteAllText(BlackListPath, content);
+        }
+
+        public string GetPrivateKey()
+        {
+            return File.ReadAllText(PrivateKeyPath);
+        }
+
+        public void SavePrivateKey(string key)
+        {
+            File.WriteAllText(PrivateKeyPath, key);
         }
 
         private void DirectoryInit(string directory)

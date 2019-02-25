@@ -59,7 +59,7 @@ namespace ClanManager.Scripts
             else
             {
                 bool isUpdated = false;
-                PlayerInfo playerInfo = HttpController.GetPlayerInfo(this.tag, out string reason);
+                PlayerInfo playerInfo = HttpController.GetPlayerInfo(this.tag, out int reason);
                 if (playerInfo != null)
                 {
                     this.lastNameList.Insert(0, this.name);

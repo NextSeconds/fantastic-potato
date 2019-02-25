@@ -7,13 +7,18 @@ using System.Threading.Tasks;
 
 namespace ClanManager.Scripts
 {
-    public class BlackList
+    public class BlackList:Singleton<BlackList>
     {
-        public List<BlackPlayerInfo> blackPlayerList;
+        private List<BlackPlayerInfo> blackPlayerList = new List<BlackPlayerInfo>();
 
         public void Init()
         {
-            GetBlackContentList();
+            blackPlayerList = GetBlackContentList();
+            if (blackPlayerList == null)
+            {
+                TipController.Instance.ShowTip("黑名单为空");
+                return;
+            }
             bool isUpdated = false;
 
             for (int i = 0; i < blackPlayerList.Count; i++)
@@ -29,7 +34,19 @@ namespace ClanManager.Scripts
                     break;
                 }
             }
+            isUpdated = CheckMember();
+            
+            if (isUpdated)
+            {
+                Save();
+            }
 
+            Reg.EventDispatcher.DispatchEventWith<List<BlackPlayerInfo>>(EventName.VIEW_MAINFORM_INIT_BLACKLIST_DATAGRIDVIEW, blackPlayerList);
+        }
+
+        public bool CheckMember()
+        {
+            bool isUpdated = false;
             List<string> memberTagList = ModelController.Instance.memberTagList;
             for (int i = 0; i < blackPlayerList.Count; i++)
             {
@@ -37,14 +54,11 @@ namespace ClanManager.Scripts
                 {
                     if (blackPlayerList[i].UpdatePlayerInfo())
                     {
-                        isUpdated = true;
+                        return true;
                     }
                 }
             }
-            if (isUpdated)
-            {
-                Save();
-            }
+            return isUpdated;
         }
 
         public void Add(string tag, string remarks)
@@ -53,6 +67,7 @@ namespace ClanManager.Scripts
             playerInfo.CheckPlayerContent();
             blackPlayerList.Add(playerInfo);
             playerInfo = null;
+            Reg.EventDispatcher.DispatchEventWith<List<BlackPlayerInfo>>(EventName.VIEW_MAINFORM_INIT_BLACKLIST_DATAGRIDVIEW, blackPlayerList);
             Save();
         }
 
@@ -75,22 +90,24 @@ namespace ClanManager.Scripts
             {
                 TipController.Instance.ShowTip("未找到");
             }
+            Reg.EventDispatcher.DispatchEventWith<List<BlackPlayerInfo>>(EventName.VIEW_MAINFORM_INIT_BLACKLIST_DATAGRIDVIEW, blackPlayerList);
             Save();
         }
 
         public void Change(string tag,string remarks)
         {
+
+            Reg.EventDispatcher.DispatchEventWith<List<BlackPlayerInfo>>(EventName.VIEW_MAINFORM_INIT_BLACKLIST_DATAGRIDVIEW, blackPlayerList);
             Save();
         }
 
         public void Find(string tag)
         {
-            Save();
         }
 
-        public void GetBlackContentList()
+        public List<BlackPlayerInfo> GetBlackContentList()
         {
-            blackPlayerList = (List<BlackPlayerInfo>)JsonConvert.DeserializeObject(FileController.Instance.GetBlackListContent());
+            return (List<BlackPlayerInfo>)JsonConvert.DeserializeObject(FileController.Instance.GetBlackListContent());
         }
 
         public void Save()
