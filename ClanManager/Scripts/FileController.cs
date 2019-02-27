@@ -63,7 +63,7 @@ namespace ClanManager.Scripts
         {
             if (!File.Exists(filePath))
             {
-                File.Create(filePath);
+                File.Create(filePath).Close();
             }
         }
 

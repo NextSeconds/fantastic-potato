@@ -9,12 +9,12 @@ namespace ClanManager.Scripts
 {
     public class BlackList:Singleton<BlackList>
     {
-        private List<BlackPlayerInfo> blackPlayerList = new List<BlackPlayerInfo>();
+        private List<BlackPlayerInfo> blackPlayerList;
 
         public void Init()
         {
             blackPlayerList = GetBlackContentList();
-            if (blackPlayerList == null)
+            if (blackPlayerList.Count == 0)
             {
                 TipController.Instance.ShowTip("黑名单为空");
                 return;
@@ -23,15 +23,18 @@ namespace ClanManager.Scripts
 
             for (int i = 0; i < blackPlayerList.Count; i++)
             {
-                if (blackPlayerList[i].CheckPlayerContent())
+                if (!blackPlayerList[i].isContentComptele)
                 {
-                    TipController.Instance.ShowTip("玩家信息补齐成功");
-                    isUpdated = true;
-                }
-                else
-                {
-                    TipController.Instance.ShowTip("玩家信息补齐失败");
-                    break;
+                    if (blackPlayerList[i].CompletionPlayerContent())
+                    {
+                        TipController.Instance.ShowTip(string.Format("补齐了{0}的名字：{1}", blackPlayerList[i].tag, blackPlayerList[i].name));
+                        isUpdated = true;
+                    }
+                    else
+                    {
+                        TipController.Instance.ShowTip(blackPlayerList[i].tag + "的信息补齐失败");
+                        break;
+                    }
                 }
             }
             isUpdated = CheckMember();
@@ -52,21 +55,87 @@ namespace ClanManager.Scripts
             {
                 if (memberTagList.Contains(blackPlayerList[i].tag))
                 {
-                    if (blackPlayerList[i].UpdatePlayerInfo())
+                    if (blackPlayerList[i].CheckPlayerName())
                     {
-                        return true;
+                        isUpdated = true;
+                    }
+                    TipController.Instance.ShowTip(string.Format("{0}{1}又进了你的部落，他曾经因为[{2}]被踢出了部落，赶快上线去踢掉他", blackPlayerList[i].name, blackPlayerList[i].tag, blackPlayerList[i].remarks));
+                    if (blackPlayerList[i].lastNameList.Count > 0)
+                    {
+                        string lastNameStr = string.Empty;
+                        for (int j = 0; j < blackPlayerList[i].lastNameList.Count; j++)
+                        {
+                            string Separator = (j == blackPlayerList[i].lastNameList.Count - 1)? "  。 ":"  ， ";
+                            lastNameStr += blackPlayerList[i].lastNameList[j] + Separator;
+                        }
+                        TipController.Instance.ShowTip(blackPlayerList[i].name + "曾经用过的名字有：" + lastNameStr);
+                        
                     }
                 }
             }
             return isUpdated;
         }
 
-        public void Add(string tag, string remarks)
+        public bool SingleAdd(string tag, string remarks)
         {
+            bool shouldCleanBoxText = true;
             BlackPlayerInfo playerInfo = new BlackPlayerInfo(tag, remarks);
-            playerInfo.CheckPlayerContent();
-            blackPlayerList.Add(playerInfo);
-            playerInfo = null;
+            for (int i = 0; i < blackPlayerList.Count; i++)
+            {
+                if (blackPlayerList[i].tag == tag)
+                {
+                    TipController.Instance.ShowBox("标签为 " + tag + " 的玩家已经存在于黑名单内了");
+                    return shouldCleanBoxText;
+                }
+            }
+            if (playerInfo.CompletionPlayerContent())
+            {
+                blackPlayerList.Add(playerInfo);
+                playerInfo = null;
+                Reg.EventDispatcher.DispatchEventWith<List<BlackPlayerInfo>>(EventName.VIEW_MAINFORM_INIT_BLACKLIST_DATAGRIDVIEW, blackPlayerList);
+                Save();
+            }
+            else
+            {
+                TipController.Instance.ShowBox("标签为 " + tag + " 的检查未通过，如日志中没有提示网络问题，则该标签无效");
+                shouldCleanBoxText = false;
+            }
+            return shouldCleanBoxText;
+        }
+
+        public void BatchAdd(string[] tagList, string remarks)
+        {
+            List<string> blackPlayerTagList = new List<string>();
+            BlackPlayerInfo playerInfo;
+
+            for (int j = 0; j < blackPlayerList.Count; j++)
+            {
+                blackPlayerTagList.Add(blackPlayerList[j].tag);
+            }
+            for (int i = 0; i < tagList.Length; i++)
+            {
+                if (string.IsNullOrWhiteSpace(tagList[i]))
+                {
+                    break;
+                }
+                if (blackPlayerTagList.Contains(tagList[i]))
+                {
+                    TipController.Instance.ShowBox("标签为 " + tagList[i] + " 的玩家已经存在于黑名单内了");
+                    break;
+                }
+                playerInfo = new BlackPlayerInfo(tagList[i], remarks);
+                if (playerInfo.CompletionPlayerContent())
+                {
+                    blackPlayerList.Add(playerInfo);
+                    TipController.Instance.ShowTip("标签为 " + tagList[i] + " 的玩家添加到黑名单成功");
+                }
+                else
+                {
+                    TipController.Instance.ShowTip("标签为 " + tagList[i] + " 的玩家添加到黑名单失败");
+                }
+                playerInfo = null;
+            }
+            blackPlayerTagList = null;
             Reg.EventDispatcher.DispatchEventWith<List<BlackPlayerInfo>>(EventName.VIEW_MAINFORM_INIT_BLACKLIST_DATAGRIDVIEW, blackPlayerList);
             Save();
         }
@@ -107,7 +176,8 @@ namespace ClanManager.Scripts
 
         public List<BlackPlayerInfo> GetBlackContentList()
         {
-            return (List<BlackPlayerInfo>)JsonConvert.DeserializeObject(FileController.Instance.GetBlackListContent());
+            List<BlackPlayerInfo> list = JsonConvert.DeserializeObject<List<BlackPlayerInfo>>(FileController.Instance.GetBlackListContent());
+            return list == null ? new List<BlackPlayerInfo>() : list;
         }
 
         public void Save()

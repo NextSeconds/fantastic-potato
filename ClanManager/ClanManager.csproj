@@ -64,6 +64,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BlackListAddDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="BlackListAddDialog.Designer.cs">
+      <DependentUpon>BlackListAddDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -101,6 +107,10 @@
     <Compile Include="Scripts\Spells.cs" />
     <Compile Include="Scripts\TipController.cs" />
     <Compile Include="Scripts\Troops.cs" />
+    <Compile Include="Scripts\ViewController.cs" />
+    <EmbeddedResource Include="BlackListAddDialog.resx">
+      <DependentUpon>BlackListAddDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

@@ -12,7 +12,7 @@ namespace ClanManager.Scripts
         public List<String> lastNameList = new List<string>();
         public string tag;
         public string remarks;
-        private bool isContentComptele;
+        public bool isContentComptele;
 
         private BlackPlayerInfo() { }
         public BlackPlayerInfo(string Name, string Tag, string Remarks)
@@ -30,43 +30,38 @@ namespace ClanManager.Scripts
             this.isContentComptele = false;
         }
 
-        //检查玩家信息是否完整
-        public bool CheckPlayerContent()
+        //补齐玩家信息
+        public bool CompletionPlayerContent()
         {
-            if (!this.isContentComptele)
+            PlayerInfo playerInfo = HttpController.GetPlayerInfo(this.tag, out int reason);
+            if (playerInfo == null)
             {
-                PlayerInfo playerInfo = HttpController.GetPlayerInfo(this.tag, out int reason);
-                if (playerInfo == null)
-                {
-                    this.isContentComptele = false;
-                }
-                else
-                {
-                    this.name = playerInfo.name;
-                    this.isContentComptele = true;
-                }
+                this.isContentComptele = false;
+                TipController.Instance.ShowTip(string.Format("补齐玩家标签为{0}的信息时出现错误：{1}({2})", tag, HttpController.GetReason(reason), reason));
+            }
+            else
+            {
+                this.name = playerInfo.name;
+                this.isContentComptele = true;
             }
             return isContentComptele;
         }
 
-        //更新玩家的信息（目前只更新名字，同时保存曾用名）
-        public bool UpdatePlayerInfo()
+        //查看玩家名字是否改变
+        public bool CheckPlayerName()
         {
-            if (!isContentComptele)
+            bool isChanged = false;
+            PlayerInfo playerInfo = HttpController.GetPlayerInfo(this.tag, out int reason);
+            if (playerInfo != null)
             {
-                return CheckPlayerContent();
-            }
-            else
-            {
-                bool isUpdated = false;
-                PlayerInfo playerInfo = HttpController.GetPlayerInfo(this.tag, out int reason);
-                if (playerInfo != null)
+                if (playerInfo.name != this.name)
                 {
-                    this.lastNameList.Insert(0, this.name);
-                    name = playerInfo.name;
+                    isChanged = true;
+                    this.lastNameList.Add(this.name);
+                    this.name = playerInfo.name;
                 }
-                return isUpdated;
             }
+            return isChanged;
         }
     }
 }

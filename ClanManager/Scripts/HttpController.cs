@@ -15,6 +15,7 @@ namespace ClanManager.Scripts
     public class HttpController
     {
         public const string PLAYER_URL = "https://api.clashofclans.com/v1/players/";
+        public const string CLAN_URL = "https://api.clashofclans.com/v1/clans/";
 
         public static PlayerInfo GetPlayerInfo(string playerTag, out int statusCode)
         {
@@ -25,13 +26,31 @@ namespace ClanManager.Scripts
             return playerInfo;
         }
 
+        public static ClanInfo GetClanInfo(string clanTag)
+        {
+            clanTag = clanTag.Replace("#", "%23");
+
+            int result;
+            string url = CLAN_URL + clanTag;
+            ClanInfo clanInfo = GetResponse<ClanInfo>(url, out result);
+            if (clanInfo == null)
+            {
+                TipController.Instance.ShowTip(string.Format("api连接失败：{0}({1})", GetReason(result), result));
+            }
+            else
+            {
+                TipController.Instance.ShowTip("api连接成功");
+            }
+            return clanInfo;
+        }
+
         public static string GetResponse(string url, out int statusCode)
         {
             if (url.StartsWith("https"))
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls;
             var httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ModelController.Instance.GetPrivateKey());
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ModelController.Instance.PrivateKey);
             HttpResponseMessage response = httpClient.GetAsync(url).Result;
             statusCode = (int)response.StatusCode;
 
@@ -46,13 +65,15 @@ namespace ClanManager.Scripts
         public static T GetResponse<T>(string url, out int statusCode) where T : class, new()
         {
             if (url.StartsWith("https"))
+            {
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls;
+            }
             var httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ModelController.Instance.GetPrivateKey());
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", ModelController.Instance.PrivateKey);
             HttpResponseMessage response = httpClient.GetAsync(url).Result;
-            statusCode = (int)response.StatusCode;
 
+            statusCode = (int)response.StatusCode;
             T result = default(T);
             if (response.IsSuccessStatusCode)
             {

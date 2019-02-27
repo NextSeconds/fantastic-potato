@@ -32,6 +32,8 @@ namespace ClanManager
         }
         public void InitClanDataGridView(AppEvent<ClanInfo> evt)
         {
+            string clanInfoText = string.Format("部落名称：{0}    成员数：{1}", evt.data.name, evt.data.members);
+            clanLabel.Text = clanInfoText;
             List<Members> members = evt.data.memberList;
             mainDataView.Columns.Add("clanRank", "序号");
             mainDataView.Columns.Add("tag", "标签");
@@ -89,8 +91,13 @@ namespace ClanManager
             for (int i = 0; i < displayRowsNum; i++)
             {
                 int dataIndex = (pageNum - 1) * displayRowsNum + i;
+                if (dataIndex >= blackList.Count)
+                {
+                    return;
+                }
                 blackListView.Rows[i].Cells[0].Value = blackList[dataIndex].name;
-                blackListView.Rows[i].Cells[1].Value = blackList[dataIndex].lastNameList[blackList[dataIndex].lastNameList.Count - 1];
+                string lastName = blackList[dataIndex].lastNameList.Count == 0 ? "" : blackList[dataIndex].lastNameList[blackList[dataIndex].lastNameList.Count - 1];
+                blackListView.Rows[i].Cells[1].Value = lastName;
                 blackListView.Rows[i].Cells[2].Value = blackList[dataIndex].tag;
                 blackListView.Rows[i].Cells[3].Value = blackList[dataIndex].remarks;
             }
@@ -117,6 +124,11 @@ namespace ClanManager
         private void toolStripStatusLabel1_Click(object sender, EventArgs e)
         {
             textBox1.Visible = !textBox1.Visible;
+        }
+
+        private void 添加ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ViewController.Instance.ShowBlackListAddDialog();
         }
     }
 }

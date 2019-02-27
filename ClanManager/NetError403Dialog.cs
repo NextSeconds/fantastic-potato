@@ -33,13 +33,13 @@ namespace ClanManager
                 MessageBox.Show("你还未输入令牌");
                 return;
             }
-            ModelController.Instance.SetPrivateKey(token);
+            ModelController.Instance.PrivateKey = token;
             if (!ModelController.Instance.TestPrivateKeyAvailable())
             {
                 MessageBox.Show("你输入的令牌无效");
                 return;
             }
-            ModelController.Instance.CloseNetErrorDialog();
+            ViewController.Instance.CloseNetErrorDialog();
         }
 
         protected override void WndProc(ref Message msg)
