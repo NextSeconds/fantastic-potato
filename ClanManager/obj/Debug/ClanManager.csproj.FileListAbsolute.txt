@@ -26,3 +26,6 @@ D:\ClanManagerSolution\ClanManager\obj\Debug\ClanManager.csproj.CopyComplete
 D:\ClanManagerSolution\ClanManager\obj\Debug\ClanManager.MainForm.resources
 D:\ClanManagerSolution\ClanManager\obj\Debug\ClanManager.NetError403Dialog.resources
 D:\ClanManagerSolution\ClanManager\obj\Debug\ClanManager.BlackListAddDialog.resources
+D:\ClanManagerSolution\ClanManager\bin\Debug\DevComponents.DotNetBar2.dll
+D:\ClanManagerSolution\ClanManager\bin\Debug\Aspose.Cells.dll
+D:\ClanManagerSolution\ClanManager\obj\Debug\ClanManager.BlackListForm.resources

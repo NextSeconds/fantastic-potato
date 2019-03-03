@@ -9,8 +9,21 @@ namespace ClanManager.Scripts
 {
     public class ViewController : Singleton<ViewController>
     {
+        private Form blackListForm;
+
         private Form netError403Dialog;
         private Form blackListAddDialog;
+
+        public void ShowBlackListForm()
+        {
+            blackListForm = new BlackListForm();
+            blackListForm.Show();
+        }
+        public void CloseBlackListForm()
+        {
+            blackListForm.Close();
+            blackListForm = null;
+        }
 
         public void ShowNetErrorDialog()
         {

@@ -19,6 +19,10 @@ namespace ClanManager.Scripts
                 TipController.Instance.ShowTip("黑名单为空");
                 return;
             }
+            else
+            {
+                TipController.Instance.ShowTip("黑名单读取成功");
+            }
             bool isUpdated = false;
 
             for (int i = 0; i < blackPlayerList.Count; i++)
@@ -44,7 +48,12 @@ namespace ClanManager.Scripts
                 Save();
             }
 
-            Reg.EventDispatcher.DispatchEventWith<List<BlackPlayerInfo>>(EventName.VIEW_MAINFORM_INIT_BLACKLIST_DATAGRIDVIEW, blackPlayerList);
+            UpdateBlackListView();
+        }
+
+        public void UpdateBlackListView()
+        {
+            Reg.EventDispatcher.DispatchEventWith<List<BlackPlayerInfo>>(EventName.VIEW_BLACKLISTFORM_UPDATE_WIN_DATAGRIDVIEW, blackPlayerList);
         }
 
         public bool CheckMember()
@@ -92,7 +101,7 @@ namespace ClanManager.Scripts
             {
                 blackPlayerList.Add(playerInfo);
                 playerInfo = null;
-                Reg.EventDispatcher.DispatchEventWith<List<BlackPlayerInfo>>(EventName.VIEW_MAINFORM_INIT_BLACKLIST_DATAGRIDVIEW, blackPlayerList);
+                UpdateBlackListView();
                 Save();
             }
             else
@@ -136,7 +145,7 @@ namespace ClanManager.Scripts
                 playerInfo = null;
             }
             blackPlayerTagList = null;
-            Reg.EventDispatcher.DispatchEventWith<List<BlackPlayerInfo>>(EventName.VIEW_MAINFORM_INIT_BLACKLIST_DATAGRIDVIEW, blackPlayerList);
+            UpdateBlackListView();
             Save();
         }
 
@@ -159,14 +168,14 @@ namespace ClanManager.Scripts
             {
                 TipController.Instance.ShowTip("未找到");
             }
-            Reg.EventDispatcher.DispatchEventWith<List<BlackPlayerInfo>>(EventName.VIEW_MAINFORM_INIT_BLACKLIST_DATAGRIDVIEW, blackPlayerList);
+            UpdateBlackListView();
             Save();
         }
 
         public void Change(string tag,string remarks)
         {
 
-            Reg.EventDispatcher.DispatchEventWith<List<BlackPlayerInfo>>(EventName.VIEW_MAINFORM_INIT_BLACKLIST_DATAGRIDVIEW, blackPlayerList);
+            UpdateBlackListView();
             Save();
         }
 

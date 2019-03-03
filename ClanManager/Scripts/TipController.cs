@@ -19,5 +19,11 @@ namespace ClanManager.Scripts
             content = DateTime.Now + " : " + content;
             Reg.EventDispatcher.DispatchEventWith(EventName.VIEW_MAINFORM_TEXTBOX_SHOWTIP, content);
         }
+
+        public void ShowTestTip(string content)
+        {
+            content = DateTime.Now + " 【测试】 : " + content;
+            //Reg.EventDispatcher.DispatchEventWith(EventName.VIEW_MAINFORM_TEXTBOX_SHOWTIP, content);
+        }
     }
 }

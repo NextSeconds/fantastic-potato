@@ -11,9 +11,7 @@ namespace ClanManager
     public partial class MainForm : Form
     {
         public static MainForm mainForm;
-        private bool isBlackViewInit = true;
-        private int pageNum = 1;
-        private int displayRowsNum = 20;
+
         public MainForm()
         {
             InitializeComponent();
@@ -24,7 +22,6 @@ namespace ClanManager
         {
             Reg.EventDispatcher.AddEventListener<AppEvent<string>>(EventName.VIEW_MAINFORM_TEXTBOX_SHOWTIP, ShowTip);
             Reg.EventDispatcher.AddEventListener<AppEvent<ClanInfo>>(EventName.VIEW_MAINFORM_INIT_CLAN_DATAGRIDVIEW, InitClanDataGridView);
-            Reg.EventDispatcher.AddEventListener<AppEvent<List<BlackPlayerInfo>>>(EventName.VIEW_MAINFORM_INIT_BLACKLIST_DATAGRIDVIEW, UpdateBlackListView);
 
             FileController.Instance.Init();
             ModelController.Instance.Init();
@@ -63,50 +60,6 @@ namespace ClanManager
             mainDataView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
         }
 
-        private void UpdateBlackListView(AppEvent<List<BlackPlayerInfo>> evt)
-        {
-            List<BlackPlayerInfo> blackList = evt.data;
-            if (isBlackViewInit)
-            {
-                blackListView.Columns.Add("name", "名称");
-                blackListView.Columns.Add("lastNameList", "曾用名");
-                blackListView.Columns.Add("tag", "标签");
-                blackListView.Columns.Add("remarks", "备注");
-                this.isBlackViewInit = false;
-            }
-            if (blackListView.Rows.Count < displayRowsNum)
-            {
-                for (int i = blackListView.Rows.Count; i < displayRowsNum; i++)
-                {
-                    blackListView.Rows.Add();
-                }
-            }
-            else if (blackListView.Rows.Count > displayRowsNum)
-            {
-                for (int i = blackListView.Rows.Count; i > displayRowsNum; i--)
-                {
-                    blackListView.Rows.RemoveAt(blackListView.Rows.Count - 1);
-                }
-            }
-            for (int i = 0; i < displayRowsNum; i++)
-            {
-                int dataIndex = (pageNum - 1) * displayRowsNum + i;
-                if (dataIndex >= blackList.Count)
-                {
-                    return;
-                }
-                blackListView.Rows[i].Cells[0].Value = blackList[dataIndex].name;
-                string lastName = blackList[dataIndex].lastNameList.Count == 0 ? "" : blackList[dataIndex].lastNameList[blackList[dataIndex].lastNameList.Count - 1];
-                blackListView.Rows[i].Cells[1].Value = lastName;
-                blackListView.Rows[i].Cells[2].Value = blackList[dataIndex].tag;
-                blackListView.Rows[i].Cells[3].Value = blackList[dataIndex].remarks;
-            }
-            blackListView.AllowUserToAddRows = false;
-            blackListView.ReadOnly = true;
-            blackListView.RowHeadersWidth = 4;
-            blackListView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-        }
-
         private void ShowTip(AppEvent<string> evt)
         {
             string content = evt.data;
@@ -118,7 +71,6 @@ namespace ClanManager
         {
             Reg.EventDispatcher.RemoveEventListener<AppEvent<string>>(EventName.VIEW_MAINFORM_TEXTBOX_SHOWTIP, ShowTip);
             Reg.EventDispatcher.RemoveEventListener<AppEvent<ClanInfo>>(EventName.VIEW_MAINFORM_INIT_CLAN_DATAGRIDVIEW, InitClanDataGridView);
-            Reg.EventDispatcher.RemoveEventListener<AppEvent<List<BlackPlayerInfo>>>(EventName.VIEW_MAINFORM_INIT_BLACKLIST_DATAGRIDVIEW, UpdateBlackListView);
         }
 
         private void toolStripStatusLabel1_Click(object sender, EventArgs e)
@@ -129,6 +81,11 @@ namespace ClanManager
         private void 添加ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ViewController.Instance.ShowBlackListAddDialog();
+        }
+
+        private void 黑名单管理ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ViewController.Instance.ShowBlackListForm();
         }
     }
 }
