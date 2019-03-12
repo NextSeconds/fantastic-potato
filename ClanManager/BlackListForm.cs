@@ -8,12 +8,13 @@ namespace ClanManager
     public partial class BlackListForm : Form
     {
         private int currentPageNum = 1;
-        private int displayRowsNum = 25;
+        private int displayRowsNum = 20;
         private int allPageNum = 1;
 
         public BlackListForm()
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
         }
 
         private void UpdateBlackListView(AppEvent<List<BlackPlayerInfo>> evt)
@@ -35,12 +36,10 @@ namespace ClanManager
             }
             else if (blackListDataGridView.Rows.Count > currentPageRowsNum)
             {
-                int removeRowsNum = blackListDataGridView.Rows.Count - currentPageRowsNum;
-                for (int i = 0; i < removeRowsNum; i++)
+                for (int i = blackListDataGridView.Rows.Count - 1; i >= currentPageRowsNum; i--)
                 {
-                    int removeRowsIndex = blackListDataGridView.Rows.Count - removeRowsNum;
-                    TipController.Instance.ShowTestTip("删除行" + removeRowsIndex.ToString());
-                    blackListDataGridView.Rows.Remove(blackListDataGridView.Rows[removeRowsIndex]);
+                    TipController.Instance.ShowTestTip(string.Format("删除索引是{0}的行", i.ToString()));
+                    blackListDataGridView.Rows.Remove(blackListDataGridView.Rows[i]);
                 }
             }
             for (int i = 0; i < currentPageRowsNum; i++)

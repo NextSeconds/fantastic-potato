@@ -52,9 +52,9 @@
             this.panel1.Controls.Add(this.previousPageButton);
             this.panel1.Controls.Add(this.homePageButton);
             this.panel1.Controls.Add(this.infoLabel);
-            this.panel1.Location = new System.Drawing.Point(0, 554);
+            this.panel1.Location = new System.Drawing.Point(-1, 498);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(668, 37);
+            this.panel1.Size = new System.Drawing.Size(649, 38);
             this.panel1.TabIndex = 7;
             // 
             // currentPageText
@@ -118,6 +118,7 @@
             // 
             // blackListDataGridView
             // 
+            this.blackListDataGridView.AllowUserToAddRows = false;
             this.blackListDataGridView.AllowUserToResizeRows = false;
             this.blackListDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.blackListDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -128,9 +129,10 @@
             this.blackListDataGridView.Location = new System.Drawing.Point(12, 12);
             this.blackListDataGridView.Name = "blackListDataGridView";
             this.blackListDataGridView.ReadOnly = true;
+            this.blackListDataGridView.RowHeadersVisible = false;
             this.blackListDataGridView.RowHeadersWidth = 34;
             this.blackListDataGridView.RowTemplate.Height = 23;
-            this.blackListDataGridView.Size = new System.Drawing.Size(656, 543);
+            this.blackListDataGridView.Size = new System.Drawing.Size(624, 486);
             this.blackListDataGridView.TabIndex = 8;
             // 
             // name
@@ -164,7 +166,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(677, 590);
+            this.ClientSize = new System.Drawing.Size(648, 535);
             this.Controls.Add(this.blackListDataGridView);
             this.Controls.Add(this.panel1);
             this.Name = "BlackListForm";

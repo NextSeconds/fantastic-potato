@@ -104,7 +104,7 @@
             // 我的部落标签设置ToolStripMenuItem
             // 
             this.我的部落标签设置ToolStripMenuItem.Name = "我的部落标签设置ToolStripMenuItem";
-            this.我的部落标签设置ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.我的部落标签设置ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.我的部落标签设置ToolStripMenuItem.Text = "我的部落标签";
             // 
             // 黑名单管理ToolStripMenuItem
@@ -112,14 +112,14 @@
             this.黑名单管理ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.添加ToolStripMenuItem});
             this.黑名单管理ToolStripMenuItem.Name = "黑名单管理ToolStripMenuItem";
-            this.黑名单管理ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.黑名单管理ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.黑名单管理ToolStripMenuItem.Text = "黑名单";
             this.黑名单管理ToolStripMenuItem.Click += new System.EventHandler(this.黑名单管理ToolStripMenuItem_Click);
             // 
             // 添加ToolStripMenuItem
             // 
             this.添加ToolStripMenuItem.Name = "添加ToolStripMenuItem";
-            this.添加ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.添加ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
             this.添加ToolStripMenuItem.Text = "添加";
             this.添加ToolStripMenuItem.Click += new System.EventHandler(this.添加ToolStripMenuItem_Click);
             // 
