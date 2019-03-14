@@ -9,6 +9,8 @@ namespace ClanManager.Scripts
 {
     public class ModelController : Singleton<ModelController>
     {
+        public static bool isOfflineMode = false;
+
         private string myClanTag = "#G8VVVRQY";
         private string privateKey = string.Empty;
 

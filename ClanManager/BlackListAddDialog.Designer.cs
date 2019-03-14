@@ -193,6 +193,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "BlackListAddDialog";
             this.Text = "BlackListAddDialog";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.BlackListAddDialog_FormClosing);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);

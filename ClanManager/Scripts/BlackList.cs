@@ -78,7 +78,6 @@ namespace ClanManager.Scripts
                             lastNameStr += blackPlayerList[i].lastNameList[j] + Separator;
                         }
                         TipController.Instance.ShowTip(blackPlayerList[i].name + "曾经用过的名字有：" + lastNameStr);
-                        
                     }
                 }
             }
@@ -106,7 +105,7 @@ namespace ClanManager.Scripts
             }
             else
             {
-                TipController.Instance.ShowBox("标签为 " + tag + " 的检查未通过，如日志中没有提示网络问题，则该标签无效");
+                TipController.Instance.ShowBox("标签 " + tag + " 检查未通过，如日志中没有提示网络问题，则该标签无效");
                 shouldCleanBoxText = false;
             }
             return shouldCleanBoxText;
@@ -121,6 +120,8 @@ namespace ClanManager.Scripts
             {
                 blackPlayerTagList.Add(blackPlayerList[j].tag);
             }
+            int winNum = 0;
+            int loseNum = 0;
             for (int i = 0; i < tagList.Length; i++)
             {
                 if (string.IsNullOrWhiteSpace(tagList[i]))
@@ -129,17 +130,20 @@ namespace ClanManager.Scripts
                 }
                 if (blackPlayerTagList.Contains(tagList[i]))
                 {
-                    TipController.Instance.ShowBox("标签为 " + tagList[i] + " 的玩家已经存在于黑名单内了");
+                    TipController.Instance.ShowBox("标签为 " + tagList[i] + " 的已经存在于黑名单内了");
+                    loseNum++;
                     break;
                 }
                 playerInfo = new BlackPlayerInfo(tagList[i], remarks);
                 if (playerInfo.CompletionPlayerContent())
                 {
                     blackPlayerList.Add(playerInfo);
+                    winNum++;
                     TipController.Instance.ShowTip("标签为 " + tagList[i] + " 的玩家添加到黑名单成功");
                 }
                 else
                 {
+                    loseNum++;
                     TipController.Instance.ShowTip("标签为 " + tagList[i] + " 的玩家添加到黑名单失败");
                 }
                 playerInfo = null;
@@ -147,6 +151,18 @@ namespace ClanManager.Scripts
             blackPlayerTagList = null;
             UpdateBlackListView();
             Save();
+            if (loseNum == 0)
+            {
+                TipController.Instance.ShowBox(string.Format("你输入了{0}个玩家信息，全部添加成功！", winNum + loseNum));
+            }
+            else if (winNum == 0)
+            {
+                TipController.Instance.ShowBox(string.Format("你输入了{0}个玩家信息，全部添加失败！", winNum + loseNum));
+            }
+            else
+            {
+                TipController.Instance.ShowBox(string.Format("你输入了{0}个玩家信息，\n添加成功{1}个，失败{2}个", winNum + loseNum, winNum, loseNum));
+            }
         }
 
         public void Delete(string tag)

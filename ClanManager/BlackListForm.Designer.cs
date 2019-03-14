@@ -40,12 +40,14 @@
             this.tag = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.remarks = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lastNameList = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.checkButton = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.blackListDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.checkButton);
             this.panel1.Controls.Add(this.currentPageText);
             this.panel1.Controls.Add(this.lastPageButton);
             this.panel1.Controls.Add(this.nextPageButton);
@@ -60,8 +62,9 @@
             // currentPageText
             // 
             this.currentPageText.Font = new System.Drawing.Font("宋体", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.currentPageText.Location = new System.Drawing.Point(427, 8);
+            this.currentPageText.Location = new System.Drawing.Point(457, 8);
             this.currentPageText.Name = "currentPageText";
+            this.currentPageText.ReadOnly = true;
             this.currentPageText.Size = new System.Drawing.Size(47, 21);
             this.currentPageText.TabIndex = 5;
             this.currentPageText.Text = "1";
@@ -69,7 +72,7 @@
             // 
             // lastPageButton
             // 
-            this.lastPageButton.Location = new System.Drawing.Point(537, 7);
+            this.lastPageButton.Location = new System.Drawing.Point(567, 7);
             this.lastPageButton.Name = "lastPageButton";
             this.lastPageButton.Size = new System.Drawing.Size(44, 23);
             this.lastPageButton.TabIndex = 4;
@@ -79,7 +82,7 @@
             // 
             // nextPageButton
             // 
-            this.nextPageButton.Location = new System.Drawing.Point(480, 7);
+            this.nextPageButton.Location = new System.Drawing.Point(510, 7);
             this.nextPageButton.Name = "nextPageButton";
             this.nextPageButton.Size = new System.Drawing.Size(51, 23);
             this.nextPageButton.TabIndex = 3;
@@ -89,7 +92,7 @@
             // 
             // previousPageButton
             // 
-            this.previousPageButton.Location = new System.Drawing.Point(369, 7);
+            this.previousPageButton.Location = new System.Drawing.Point(399, 7);
             this.previousPageButton.Name = "previousPageButton";
             this.previousPageButton.Size = new System.Drawing.Size(51, 23);
             this.previousPageButton.TabIndex = 2;
@@ -99,7 +102,7 @@
             // 
             // homePageButton
             // 
-            this.homePageButton.Location = new System.Drawing.Point(320, 7);
+            this.homePageButton.Location = new System.Drawing.Point(350, 7);
             this.homePageButton.Name = "homePageButton";
             this.homePageButton.Size = new System.Drawing.Size(44, 23);
             this.homePageButton.TabIndex = 1;
@@ -110,7 +113,7 @@
             // infoLabel
             // 
             this.infoLabel.AutoSize = true;
-            this.infoLabel.Location = new System.Drawing.Point(45, 12);
+            this.infoLabel.Location = new System.Drawing.Point(126, 12);
             this.infoLabel.Name = "infoLabel";
             this.infoLabel.Size = new System.Drawing.Size(197, 12);
             this.infoLabel.TabIndex = 0;
@@ -162,6 +165,17 @@
             this.lastNameList.ReadOnly = true;
             this.lastNameList.Width = 150;
             // 
+            // checkButton
+            // 
+            this.checkButton.ForeColor = System.Drawing.Color.Crimson;
+            this.checkButton.Location = new System.Drawing.Point(13, 7);
+            this.checkButton.Name = "checkButton";
+            this.checkButton.Size = new System.Drawing.Size(89, 23);
+            this.checkButton.TabIndex = 6;
+            this.checkButton.Text = "检查部落人员";
+            this.checkButton.UseVisualStyleBackColor = true;
+            this.checkButton.Click += new System.EventHandler(this.checkButton_Click);
+            // 
             // BlackListForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -194,5 +208,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn tag;
         private System.Windows.Forms.DataGridViewTextBoxColumn remarks;
         private System.Windows.Forms.DataGridViewTextBoxColumn lastNameList;
+        private System.Windows.Forms.Button checkButton;
     }
 }

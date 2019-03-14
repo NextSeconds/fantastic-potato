@@ -46,8 +46,10 @@ namespace ClanManager.Scripts
             }
             return isContentComptele;
         }
-
-        //查看玩家名字是否改变
+        /// <summary>
+        /// 查看玩家名字是否改变
+        /// </summary>
+        /// <returns>改变了并更新了就返回true,否则就返回false</returns>
         public bool CheckPlayerName()
         {
             bool isChanged = false;

@@ -36,5 +36,10 @@ namespace ClanManager
             batchAddTagsTextBox.Text = "";
             batchAddRemarksTextBox.Text = "";
         }
+
+        private void BlackListAddDialog_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            BlackList.Instance.CheckMember();
+        }
     }
 }

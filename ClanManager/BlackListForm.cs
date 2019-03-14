@@ -108,5 +108,17 @@ namespace ClanManager
                 BlackList.Instance.UpdateBlackListView();
             }
         }
+
+        private void checkButton_Click(object sender, EventArgs e)
+        {
+            if (BlackList.Instance.CheckMember())
+            {
+                TipController.Instance.ShowBox("有黑名单人员在部落中");
+            }
+            else
+            {
+                TipController.Instance.ShowTip("检查完毕，部落中无黑名单人员。");
+            }
+        }
     }
 }
