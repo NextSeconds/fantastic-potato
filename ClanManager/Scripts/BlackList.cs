@@ -41,8 +41,19 @@ namespace ClanManager.Scripts
                     }
                 }
             }
-            isUpdated = CheckMember();
-            
+            List<BlackPlayerInfo> inClanBlackMemberslist = CheckMember();
+            if (inClanBlackMemberslist.Count > 0)
+            {
+                for (int i = 0; i < inClanBlackMemberslist.Count; i++)
+                {
+                    if (inClanBlackMemberslist[i].CheckPlayerName())
+                    {
+                        isUpdated = true;
+                    }
+                }
+                ShowTipBlackMembersInClan(inClanBlackMemberslist);
+            }
+
             if (isUpdated)
             {
                 Save();
@@ -56,32 +67,41 @@ namespace ClanManager.Scripts
             Reg.EventDispatcher.DispatchEventWith<List<BlackPlayerInfo>>(EventName.VIEW_BLACKLISTFORM_UPDATE_WIN_DATAGRIDVIEW, blackPlayerList);
         }
 
-        public bool CheckMember()
+        /// <summary>
+        /// 检查黑名单的人员是否有在当前部落中的
+        /// </summary>
+        /// <returns>返回人员的列表</returns>
+        public List<BlackPlayerInfo> CheckMember()
         {
-            bool isUpdated = false;
+            List<BlackPlayerInfo> inClanBlackMembers = new List<BlackPlayerInfo>();
             List<string> memberTagList = ModelController.Instance.memberTagList;
             for (int i = 0; i < blackPlayerList.Count; i++)
             {
                 if (memberTagList.Contains(blackPlayerList[i].tag))
                 {
-                    if (blackPlayerList[i].CheckPlayerName())
-                    {
-                        isUpdated = true;
-                    }
-                    TipController.Instance.ShowTip(string.Format("{0}{1}又进了你的部落，他曾经因为[{2}]被踢出了部落，赶快上线去踢掉他", blackPlayerList[i].name, blackPlayerList[i].tag, blackPlayerList[i].remarks));
-                    if (blackPlayerList[i].lastNameList.Count > 0)
-                    {
-                        string lastNameStr = string.Empty;
-                        for (int j = 0; j < blackPlayerList[i].lastNameList.Count; j++)
-                        {
-                            string Separator = (j == blackPlayerList[i].lastNameList.Count - 1)? "  。 ":"  ， ";
-                            lastNameStr += blackPlayerList[i].lastNameList[j] + Separator;
-                        }
-                        TipController.Instance.ShowTip(blackPlayerList[i].name + "曾经用过的名字有：" + lastNameStr);
-                    }
+                    inClanBlackMembers.Add(blackPlayerList[i]);
                 }
             }
-            return isUpdated;
+            return inClanBlackMembers;
+        }
+
+        public void ShowTipBlackMembersInClan(List<BlackPlayerInfo> inClanBlackMemberslist)
+        {
+            for (int i = 0; i < inClanBlackMemberslist.Count; i++)
+            {
+                string tipStr = string.Format("{0}{1}又进了你的部落，他曾经因为[{2}]被踢出了部落，", inClanBlackMemberslist[i].name, inClanBlackMemberslist[i].tag, inClanBlackMemberslist[i].remarks);
+                if (inClanBlackMemberslist[i].lastNameList.Count > 0)
+                {
+                    string lastNameStr = string.Empty;
+                    for (int j = 0; j < inClanBlackMemberslist[i].lastNameList.Count; j++)
+                    {
+                        string Separator = (j == inClanBlackMemberslist[i].lastNameList.Count - 1) ? "  。 " : "  ， ";
+                        lastNameStr += inClanBlackMemberslist[i].lastNameList[j] + Separator;
+                    }
+                    tipStr += string.Format("曾经用过的名字有：{0} 赶快上线去踢掉他", lastNameStr);
+                }
+                TipController.Instance.ShowTip(tipStr);
+            }
         }
 
         public bool SingleAdd(string tag, string remarks)
@@ -120,6 +140,7 @@ namespace ClanManager.Scripts
             {
                 blackPlayerTagList.Add(blackPlayerList[j].tag);
             }
+            int repeatNum = 0;
             int winNum = 0;
             int loseNum = 0;
             for (int i = 0; i < tagList.Length; i++)
@@ -151,18 +172,9 @@ namespace ClanManager.Scripts
             blackPlayerTagList = null;
             UpdateBlackListView();
             Save();
-            if (loseNum == 0)
-            {
-                TipController.Instance.ShowBox(string.Format("你输入了{0}个玩家信息，全部添加成功！", winNum + loseNum));
-            }
-            else if (winNum == 0)
-            {
-                TipController.Instance.ShowBox(string.Format("你输入了{0}个玩家信息，全部添加失败！", winNum + loseNum));
-            }
-            else
-            {
-                TipController.Instance.ShowBox(string.Format("你输入了{0}个玩家信息，\n添加成功{1}个，失败{2}个", winNum + loseNum, winNum, loseNum));
-            }
+            string tipStr = string.Format("你输入了{0}个玩家信息，重复了{1}个\n", winNum + loseNum + repeatNum,repeatNum);
+            tipStr += string.Format("添加成功{0}个，失败{1}个", winNum, loseNum);
+            TipController.Instance.ShowBox(tipStr);
         }
 
         public void Delete(string tag)

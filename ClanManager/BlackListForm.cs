@@ -111,9 +111,11 @@ namespace ClanManager
 
         private void checkButton_Click(object sender, EventArgs e)
         {
-            if (BlackList.Instance.CheckMember())
+            List<BlackPlayerInfo> list = BlackList.Instance.CheckMember();
+            if (list.Count > 0)
             {
                 TipController.Instance.ShowBox("有黑名单人员在部落中");
+                BlackList.Instance.ShowTipBlackMembersInClan(list);
             }
             else
             {

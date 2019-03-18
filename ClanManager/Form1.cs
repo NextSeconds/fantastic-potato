@@ -64,6 +64,7 @@ namespace ClanManager
         {
             string content = evt.data;
             textBox1.AppendText(content + "\n");
+            textBox1.ScrollToCaret();
             toolStripStatusLabel1.Text = content;
         }
 

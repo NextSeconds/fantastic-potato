@@ -56,3 +56,4 @@ E:\ClanManager\fantastic-potato\ClanManager\obj\Debug\ClanManager.MainForm.resou
 E:\ClanManager\fantastic-potato\ClanManager\obj\Debug\ClanManager.NetError403Dialog.resources
 E:\ClanManager\fantastic-potato\ClanManager\obj\Debug\ClanManager.Properties.Resources.resources
 E:\ClanManager\fantastic-potato\ClanManager\obj\Debug\ClanManager.csproj.GenerateResource.Cache
+E:\ClanManager\fantastic-potato\ClanManager\obj\Debug\ClanManager.OfflineDialog.resources
