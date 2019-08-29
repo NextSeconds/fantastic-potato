@@ -8,9 +8,10 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>ClanManager</RootNamespace>
     <AssemblyName>ClanManager</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -51,6 +52,7 @@
       <HintPath>..\packages\Newtonsoft.Json.10.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Design" />
     <Reference Include="System.Drawing.Design" />
@@ -84,6 +86,13 @@
     <Compile Include="BlackListForm.Designer.cs">
       <DependentUpon>BlackListForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Cursors.cs" />
+    <Compile Include="EmailManage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EmailManage.Designer.cs">
+      <DependentUpon>EmailManage.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -102,9 +111,11 @@
     <Compile Include="OfflineDialog.Designer.cs">
       <DependentUpon>OfflineDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="Paging.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scripts\Achievements.cs" />
+    <Compile Include="Scripts\APIMembersResult.cs" />
     <Compile Include="Scripts\AppEvent.cs" />
     <Compile Include="Scripts\AppEventDispatcher.cs" />
     <Compile Include="Scripts\BadgeUrls.cs" />
@@ -112,6 +123,8 @@
     <Compile Include="Scripts\BlackPlayerInfo.cs" />
     <Compile Include="Scripts\Clan.cs" />
     <Compile Include="Scripts\ClanInfo.cs" />
+    <Compile Include="Scripts\DBHelper.cs" />
+    <Compile Include="Scripts\EmailHelper.cs" />
     <Compile Include="Scripts\EventName.cs" />
     <Compile Include="Scripts\FileController.cs" />
     <Compile Include="Scripts\Heroes.cs" />
@@ -133,6 +146,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="BlackListForm.resx">
       <DependentUpon>BlackListForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EmailManage.resx">
+      <DependentUpon>EmailManage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

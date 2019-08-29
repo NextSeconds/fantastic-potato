@@ -14,6 +14,8 @@ namespace ClanManager.Scripts
         private Form netError403Dialog;
         private Form blackListAddDialog;
 
+        private Form email;
+
         public void ShowBlackListForm()
         {
             blackListForm = new BlackListForm();
@@ -36,6 +38,12 @@ namespace ClanManager.Scripts
             blackListAddDialog.ShowDialog();
         }
 
+        public void ShowEmailDialog() 
+        {
+            email = new EmailManage();
+            email.ShowDialog();
+        }
+
         public void CloseNetErrorDialog()
         {
             netError403Dialog.Close();
@@ -46,6 +54,12 @@ namespace ClanManager.Scripts
         {
             blackListAddDialog.Close();
             blackListAddDialog = null;
+        }
+
+        public void CloseEmailDialog()
+        {
+            email.Close();
+            email = null;
         }
     }
 }

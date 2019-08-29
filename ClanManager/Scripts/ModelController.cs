@@ -60,9 +60,16 @@ namespace ClanManager.Scripts
         {
             bool isAvailable = true;
             int result;
-            string testUrl = HttpController.CLAN_URL + PIG_CLAN_TAG;
-            HttpController.GetResponse<ClanInfo>(testUrl, out result);
-            if (result == 403)
+            try
+            {
+                string testUrl = HttpController.CLAN_URL + PIG_CLAN_TAG;
+                HttpController.GetResponse<ClanInfo>(testUrl, out result);
+                if (result == 403)
+                {
+                    isAvailable = false;
+                }
+            }
+            catch 
             {
                 isAvailable = false;
             }

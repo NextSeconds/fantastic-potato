@@ -88,5 +88,10 @@ namespace ClanManager
         {
             ViewController.Instance.ShowBlackListForm();
         }
+
+        private void 邮件服务ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ViewController.Instance.ShowEmailDialog();
+        }
     }
 }

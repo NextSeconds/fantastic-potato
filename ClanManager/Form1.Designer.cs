@@ -45,6 +45,7 @@
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.clanInfoBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.邮件服务ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.mainDataView)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -83,20 +84,21 @@
             // 查询部落信息ToolStripMenuItem
             // 
             this.查询部落信息ToolStripMenuItem.Name = "查询部落信息ToolStripMenuItem";
-            this.查询部落信息ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.查询部落信息ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.查询部落信息ToolStripMenuItem.Text = "部落信息";
             // 
             // 玩家信息ToolStripMenuItem
             // 
             this.玩家信息ToolStripMenuItem.Name = "玩家信息ToolStripMenuItem";
-            this.玩家信息ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.玩家信息ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.玩家信息ToolStripMenuItem.Text = "玩家信息";
             // 
             // 设置ToolStripMenuItem
             // 
             this.设置ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.我的部落标签设置ToolStripMenuItem,
-            this.黑名单管理ToolStripMenuItem});
+            this.黑名单管理ToolStripMenuItem,
+            this.邮件服务ToolStripMenuItem});
             this.设置ToolStripMenuItem.Name = "设置ToolStripMenuItem";
             this.设置ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
             this.设置ToolStripMenuItem.Text = "管理";
@@ -104,7 +106,7 @@
             // 我的部落标签设置ToolStripMenuItem
             // 
             this.我的部落标签设置ToolStripMenuItem.Name = "我的部落标签设置ToolStripMenuItem";
-            this.我的部落标签设置ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.我的部落标签设置ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.我的部落标签设置ToolStripMenuItem.Text = "我的部落标签";
             // 
             // 黑名单管理ToolStripMenuItem
@@ -112,7 +114,7 @@
             this.黑名单管理ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.添加ToolStripMenuItem});
             this.黑名单管理ToolStripMenuItem.Name = "黑名单管理ToolStripMenuItem";
-            this.黑名单管理ToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.黑名单管理ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.黑名单管理ToolStripMenuItem.Text = "黑名单";
             this.黑名单管理ToolStripMenuItem.Click += new System.EventHandler(this.黑名单管理ToolStripMenuItem_Click);
             // 
@@ -169,6 +171,13 @@
             // 
             this.clanInfoBindingSource.DataSource = typeof(ClanManager.Scripts.ClanInfo);
             // 
+            // 邮件服务ToolStripMenuItem
+            // 
+            this.邮件服务ToolStripMenuItem.Name = "邮件服务ToolStripMenuItem";
+            this.邮件服务ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.邮件服务ToolStripMenuItem.Text = "邮件服务";
+            this.邮件服务ToolStripMenuItem.Click += new System.EventHandler(this.邮件服务ToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -214,6 +223,7 @@
         private System.Windows.Forms.ToolStripMenuItem 我的部落标签设置ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 黑名单管理ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 添加ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 邮件服务ToolStripMenuItem;
     }
 }
 

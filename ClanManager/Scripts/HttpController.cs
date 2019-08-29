@@ -16,6 +16,7 @@ namespace ClanManager.Scripts
     {
         public const string PLAYER_URL = "https://api.clashofclans.com/v1/players/";
         public const string CLAN_URL = "https://api.clashofclans.com/v1/clans/";
+        public const string CLAN_MEMBERS_URL = "https://api.clashofclans.com/v1/clans/{}/members";
 
         public static PlayerInfo GetPlayerInfo(string playerTag, out int statusCode)
         {
@@ -24,6 +25,15 @@ namespace ClanManager.Scripts
             string playerUrl = PLAYER_URL + playerTag;
             playerInfo = GetResponse<PlayerInfo>(playerUrl, out statusCode);
             return playerInfo;
+        }
+
+        public static List<Members> GetClanMembersInfo(string clanTag)
+        {
+            clanTag = clanTag.Replace("#", "%23");
+
+            int result;
+            string url = CLAN_MEMBERS_URL.Replace("{}", clanTag);
+            return GetResponse<APIMembersResult>(url, out result).items;
         }
 
         public static ClanInfo GetClanInfo(string clanTag)

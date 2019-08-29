@@ -33,7 +33,8 @@ namespace ClanManager.Scripts
         //补齐玩家信息
         public bool CompletionPlayerContent()
         {
-            PlayerInfo playerInfo = HttpController.GetPlayerInfo(this.tag, out int reason);
+            int reason=0;
+            PlayerInfo playerInfo = HttpController.GetPlayerInfo(this.tag, out reason);
             if (playerInfo == null)
             {
                 this.isContentComptele = false;
@@ -53,7 +54,8 @@ namespace ClanManager.Scripts
         public bool CheckPlayerName()
         {
             bool isChanged = false;
-            PlayerInfo playerInfo = HttpController.GetPlayerInfo(this.tag, out int reason);
+            int reason = 0;
+            PlayerInfo playerInfo = HttpController.GetPlayerInfo(this.tag, out reason);
             if (playerInfo != null)
             {
                 if (playerInfo.name != this.name)
