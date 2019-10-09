@@ -60,7 +60,6 @@ E:\ClanManager\fantastic-potato\ClanManager\obj\Debug\ClanManager.OfflineDialog.
 D:\PriavtePro\fantastic-potato-master\ClanManager\bin\Debug\ClanManager.exe.config
 D:\PriavtePro\fantastic-potato-master\ClanManager\obj\Debug\ClanManager.exe
 D:\PriavtePro\fantastic-potato-master\ClanManager\obj\Debug\ClanManager.pdb
-D:\PriavtePro\fantastic-potato-master\ClanManager\obj\Debug\ClanManager.csprojResolveAssemblyReference.cache
 D:\PriavtePro\fantastic-potato-master\ClanManager\obj\Debug\ClanManager.BlackListAddDialog.resources
 D:\PriavtePro\fantastic-potato-master\ClanManager\obj\Debug\ClanManager.BlackListForm.resources
 D:\PriavtePro\fantastic-potato-master\ClanManager\obj\Debug\ClanManager.MainForm.resources
@@ -74,3 +73,16 @@ D:\PriavtePro\fantastic-potato-master\ClanManager\bin\Debug\HttpSender.dll
 D:\PriavtePro\fantastic-potato-master\ClanManager\bin\Debug\Newtonsoft.Json.dll
 D:\PriavtePro\fantastic-potato-master\ClanManager\bin\Debug\Newtonsoft.Json.xml
 D:\PriavtePro\fantastic-potato-master\ClanManager\obj\Debug\ClanManager.EmailManage.resources
+D:\PriavtePro\fantastic-potato-master\ClanManager\obj\Debug\ClanManager.csprojAssemblyReference.cache
+D:\PriavtePro\fantastic-potato-master\ClanManager\obj\Debug\ClanManager.csproj.CopyComplete
+D:\PriavtePro\fantastic-potato-master\ClanManager\bin\Debug\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\PriavtePro\fantastic-potato-master\ClanManager\bin\Debug\Microsoft.IdentityModel.Logging.dll
+D:\PriavtePro\fantastic-potato-master\ClanManager\bin\Debug\Microsoft.IdentityModel.Tokens.dll
+D:\PriavtePro\fantastic-potato-master\ClanManager\bin\Debug\Quartz.dll
+D:\PriavtePro\fantastic-potato-master\ClanManager\bin\Debug\System.IdentityModel.Tokens.Jwt.dll
+D:\PriavtePro\fantastic-potato-master\ClanManager\bin\Debug\Microsoft.IdentityModel.JsonWebTokens.xml
+D:\PriavtePro\fantastic-potato-master\ClanManager\bin\Debug\Microsoft.IdentityModel.Logging.xml
+D:\PriavtePro\fantastic-potato-master\ClanManager\bin\Debug\Microsoft.IdentityModel.Tokens.xml
+D:\PriavtePro\fantastic-potato-master\ClanManager\bin\Debug\Quartz.pdb
+D:\PriavtePro\fantastic-potato-master\ClanManager\bin\Debug\Quartz.xml
+D:\PriavtePro\fantastic-potato-master\ClanManager\bin\Debug\System.IdentityModel.Tokens.Jwt.xml
