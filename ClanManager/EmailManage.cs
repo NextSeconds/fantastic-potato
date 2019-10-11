@@ -1,19 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Timers;
 using ClanManager.Scripts;
+using ClanManager.Job;
+using Quartz;
+using Quartz.Impl;
+using Quartz.Impl.AdoJobStore.Common;
+using System.Configuration;
+using Quartz.Impl.AdoJobStore;
+using System.Threading.Tasks;
 
 namespace ClanManager
 {
     public partial class EmailManage : Form
     {
+        private SchedulerCenter scheduler = SchedulerCenter.Instance;
         public EmailManage()
         {
             InitializeComponent();
@@ -21,66 +23,92 @@ namespace ClanManager
 
         private void EmailManage_Load(object sender, EventArgs e)
         {
-            this.lbTime.Text = "";
-            this.lbTime.ForeColor = Color.Green;
-            InitTimer();
-            timer.Stop();
+            //从数据库初始化任务数据
+            string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ToString();
+            scheduler.Setting(new DbProvider("SqlServer", connectionString), typeof(SqlServerDelegate).AssemblyQualifiedName);
+
+            StartJobController();
+        }
+
+        private async void StartJobController()
+        {
+            //1.通过工厂获取一个调度器的实例
+            StdSchedulerFactory factory = new StdSchedulerFactory();
+            IScheduler _scheduler = await factory.GetScheduler();
+            await _scheduler.Start();
+
+            //创建任务对象
+            IJobDetail job = JobBuilder.Create<JobFromDB>()
+                .WithIdentity("JobBase", "GroupBase")
+                .Build();
+
+            //创建触发器
+            ITrigger trigger = TriggerBuilder.Create()
+                .WithIdentity("TriggerBase", "GroupBase")
+                .StartNow()
+                .WithCronSchedule("0/10 * * * * ?")//每10秒执行
+                .Build();
+
+            //将任务加入到任务池
+            await _scheduler.ScheduleJob(job, trigger);
         }
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            timer.Start();
-            this.lbTime.ForeColor = Color.Green;
+            StartSchedule();
         }
 
         private void btnStop_Click(object sender, EventArgs e)
         {
-            timer.Stop();
-            this.lbTime.ForeColor = Color.Blue;
+            StopSchedule();
         }
 
-        //定义Timer类
-        System.Timers.Timer timer;
-        //定义委托
-        public delegate void SetControlValue();
-        /// <summary>
-        /// 初始化Timer控件
-        /// </summary>
-        private void InitTimer()
+        private void AddTestBtn_Click(object sender, EventArgs e)
         {
-            //设置定时间隔(毫秒为单位)
-            int interval = 1000;
-            timer = new System.Timers.Timer(interval);
-            //设置执行一次（false）还是一直执行(true)
-            timer.AutoReset = true;
-            //设置是否执行System.Timers.Timer.Elapsed事件
-            timer.Enabled = true;
-            //绑定Elapsed事件
-            timer.Elapsed += new System.Timers.ElapsedEventHandler(TimerUp);
         }
 
-        /// <summary>
-        /// Timer类执行定时到点事件
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void TimerUp(object sender, System.Timers.ElapsedEventArgs e)
+        private void ShowJobInfo_Click(object sender, EventArgs e)
         {
-            try
+            GetAllJobBriefInfoAsync();
+        }
+
+        private void EmailManage_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            StopSchedule();
+        }
+
+        public async void StartSchedule()
+        {
+            await scheduler.StartScheduleAsync();
+        }
+        public async void StopSchedule()
+        {
+            await scheduler.ShutdownScheduleAsync();
+        }
+
+        public async void GetAllJobBriefInfoAsync()
+        {
+            string str = "";
+            List<JobBriefInfoEntity> jobList = await scheduler.GetAllJobBriefInfoAsync();
+            for (int i = 0; i < jobList.Count; i++)
             {
-                this.Invoke(new SetControlValue(UpdateForm));
-                this.Invoke(new SetControlValue(SendEmail));
+                List<JobBriefInfo> info = jobList[i].JobInfoList;
+                str += "组名:" + jobList[i].GroupName + "\n\r";
+                for (int k = 0; k < info.Count; k++)
+                {
+                    str += " 任务名称:" + info[k].Name + "\n\r";
+                    str += " 下次执行时间:" + info[k].NextFireTime + "\n\r";
+                    str += " 上次执行时间:" + info[k].PreviousFireTime + "\n\r";
+                    str += " 上次错误内容:" + info[k].LastErrMsg + "\n\r";
+                    str += " 任务状态:" + info[k].TriggerState + "\n\r";
+                    str += " 显示状态:" + info[k].DisplayState + "\n\r";
+                    str += "\n\r";
+                }
+                str += "---------------------------------\n\r";
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("执行定时到点事件失败:" + ex.Message);
-            }
+            MessageBox.Show(str);
         }
 
-        private void UpdateForm()
-        {
-            this.lbTime.Text = DateTime.Now.ToLongTimeString();
-        }
 
         private void SendEmail()
         {
@@ -131,5 +159,7 @@ namespace ClanManager
                 }
             }
         }
+
+        
     }
 }
