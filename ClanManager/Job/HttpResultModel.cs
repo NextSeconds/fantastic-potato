@@ -2,6 +2,12 @@
 {
     public class HttpResultModel
     {
+        public Data d;
+    }
+
+    public class Data
+    {
+        public string __type { get; set; }
         /// <summary>
         /// 请求是否成功
         /// </summary>

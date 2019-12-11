@@ -65,6 +65,7 @@ namespace ClanManager
 
         private void AddTestBtn_Click(object sender, EventArgs e)
         {
+            //TestRun();
         }
 
         private void ShowJobInfo_Click(object sender, EventArgs e)
@@ -88,8 +89,8 @@ namespace ClanManager
 
         public async void GetAllJobBriefInfoAsync()
         {
-            string str = "";
             List<JobBriefInfoEntity> jobList = await scheduler.GetAllJobBriefInfoAsync();
+            string str = "";
             for (int i = 0; i < jobList.Count; i++)
             {
                 List<JobBriefInfo> info = jobList[i].JobInfoList;
@@ -108,58 +109,5 @@ namespace ClanManager
             }
             MessageBox.Show(str);
         }
-
-
-        private void SendEmail()
-        {
-            DateTime currentTime = DateTime.Now;
-            if (currentTime.Hour >= 8 && currentTime.Hour <= 20 && currentTime.Minute == 0 && currentTime.Second == 0)
-            {
-                try
-                {
-                    string clanTagSql = "select distinct ClanTag from sys_users where ClanTag is not null and emailaddress is not null and email_flag='1' and ClanTag in (select clantag from clan_block)";
-                    DataTable clanTagDT = DBHelper.Query(clanTagSql).Tables[0];
-                    for (int h = 0; h < clanTagDT.Rows.Count; h++)
-                    {
-                        string clanTag = clanTagDT.Rows[h][0].ToString();
-                        List<Members> membersList = new List<Members>();
-                        membersList = HttpController.GetClanMembersInfo(clanTag);
-                        List<string> tagList = new List<string>();
-                        for (int i = 0; i < membersList.Count; i++)
-                        {
-                            tagList.Add(membersList[i].tag);
-                        }
-                        string blockTag = "";
-                        DataTable dt = DBHelper.Query("select personTag from clan_block where clantag='" + clanTag + "'").Tables[0];
-                        for (int i = 0; i < dt.Rows.Count; i++)
-                        {
-                            string tag = dt.Rows[i][0].ToString();
-                            if (tagList.IndexOf(tag) != -1)
-                            {
-                                blockTag += "'" + tag + "'";
-                            }
-                        }
-                        if (blockTag != "")
-                        {
-                            blockTag.Replace("''", "','");
-                            string content = EmailHelper.GetMailBodyFromDataTable(DBHelper.Query("select personTag as 人员标签,personName as 人员昵称,reason as 拉黑原因,opeDate as 拉黑时间 from clan_block where clantag='" + clanTag + "' and personTag in (" + blockTag + ")").Tables[0], "你们部落又出现了黑名单人员快去踢掉他们把！");
-                            List<string> emailList = new List<string>();
-                            DataTable emailDT = DBHelper.Query("select distinct emailaddress from sys_users where emailaddress is not null and email_flag='1' and clantag='" + clanTag + "'").Tables[0];
-                            for (int i = 0; i < emailDT.Rows.Count; i++)
-                            {
-                                emailList.Add(emailDT.Rows[i][0].ToString());
-                            }
-                            EmailHelper.SendMailSSL("讨厌的人又出现了！", content, emailList);
-                        }
-                    }
-                }
-                catch
-                {
-
-                }
-            }
-        }
-
-        
     }
 }

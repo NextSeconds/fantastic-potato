@@ -1,6 +1,4 @@
-﻿
-
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Quartz;
 using System;
 using System.Collections.Generic;
@@ -70,7 +68,7 @@ namespace ClanManager.Job
                 if (!response.IsSuccessStatusCode)
                 {
                     loginfo.ErrorMsg = result;
-                    await ErrorAsync(loginfo.JobName, new Exception(result), JsonConvert.SerializeObject(loginfo), mailMessage);
+                    await ErrorAsync(loginfo.JobName, new Exception(result), loginfo, mailMessage);
                     context.JobDetail.JobDataMap[Constant.EXCEPTION] = JsonConvert.SerializeObject(loginfo);
                 }
                 else
@@ -79,18 +77,18 @@ namespace ClanManager.Job
                     {
                         //这里需要和请求方约定好返回结果约定为HttpResultModel模型
                         var httpResult = JsonConvert.DeserializeObject<HttpResultModel>(result);
-                        if (!httpResult.IsSuccess)
+                        if (!httpResult.d.IsSuccess)
                         {
-                            loginfo.ErrorMsg = $"<span class='error'>{httpResult.ErrorMsg}</span>";
-                            await ErrorAsync(loginfo.JobName, new Exception(httpResult.ErrorMsg), JsonConvert.SerializeObject(loginfo), mailMessage);
+                            loginfo.ErrorMsg = $"<span class='error'>{httpResult.d.ErrorMsg}</span>";
+                            await ErrorAsync(loginfo.JobName, new Exception(httpResult.d.ErrorMsg), loginfo, mailMessage);
                             context.JobDetail.JobDataMap[Constant.EXCEPTION] = JsonConvert.SerializeObject(loginfo);
                         }
                         else
-                            await InformationAsync(loginfo.JobName, JsonConvert.SerializeObject(loginfo), mailMessage);
+                            await InformationAsync(loginfo.JobName, loginfo, mailMessage);
                     }
                     catch (Exception)
                     {
-                        await InformationAsync(loginfo.JobName, JsonConvert.SerializeObject(loginfo), mailMessage);
+                        await InformationAsync(loginfo.JobName, loginfo, mailMessage);
                     }
                 }
             }
@@ -101,7 +99,7 @@ namespace ClanManager.Job
                 loginfo.ErrorMsg = $"<span class='error'>{ex.Message} {ex.StackTrace}</span>";
                 context.JobDetail.JobDataMap[Constant.EXCEPTION] = JsonConvert.SerializeObject(loginfo);
                 loginfo.Seconds = seconds;
-                await ErrorAsync(loginfo.JobName, ex, JsonConvert.SerializeObject(loginfo), mailMessage);
+                await ErrorAsync(loginfo.JobName, ex, loginfo, mailMessage);
             }
             finally
             {
@@ -141,6 +139,19 @@ namespace ClanManager.Job
             }
         }
 
+        public async Task InformationAsync(string title, LogInfoModel loginfo, MailMessageEnum mailMessage)
+        {
+            Log.Information(loginfo);
+            if (mailMessage == MailMessageEnum.All)
+            {
+                await new SetingController().SendMail(new SendMailModel()
+                {
+                    Title = $"任务调度-{title}消息",
+                    Content = JsonConvert.SerializeObject(loginfo)
+                });
+            }
+        }
+
         public async Task ErrorAsync(string title, Exception ex, string msg, MailMessageEnum mailMessage)
         {
             Log.Error(ex, msg);
@@ -150,6 +161,19 @@ namespace ClanManager.Job
                 {
                     Title = $"任务调度-{title}【异常】消息",
                     Content = msg
+                });
+            }
+        }
+
+        public async Task ErrorAsync(string title, Exception ex, LogInfoModel loginfo, MailMessageEnum mailMessage)
+        {
+            Log.Error(ex, loginfo);
+            if (mailMessage == MailMessageEnum.Err || mailMessage == MailMessageEnum.All)
+            {
+                await new SetingController().SendMail(new SendMailModel()
+                {
+                    Title = $"任务调度-{title}【异常】消息",
+                    Content = JsonConvert.SerializeObject(loginfo)
                 });
             }
         }

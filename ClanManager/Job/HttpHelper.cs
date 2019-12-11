@@ -68,7 +68,6 @@ namespace ClanManager.Job
         /// <summary>
         /// Post请求
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <param name="url">url地址</param>
         /// <param name="content">请求参数</param>
         /// <param name="headers">webapi做用户认证</param>
